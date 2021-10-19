@@ -1,99 +1,109 @@
-### O GIT armazena as informações em 3 gitconfig:
-1. Do Sistema como um todo
-2. Do Usuário (global)
-3. Do Projeto
+# **Usando o GIT**
 
-## Configurando o gitconfig do Usuário
-
-Definir um nome de usuário (necessário para os commits)
-```bash
-git config --global user.name "Maria Marta"
-```
-
-Definir um email (necessário para os commits)
-```bash
-git config --global user.email "maria.marta@gmail.com"
-```
-
-Definir um editor de texto para os arquivos de configuração do git
-```bash
-git config --global core.editor code
-```
-
-Visualizar uma configuração específica
-```bash
-git config --global user.name
-```
-
-Visualizar todas as configurações de uma só vez
-```bash
-git config --list
-```
-
-## Criando um reposítório
-
-Primeiramente vamos criar uma pasta (diretório)
+Para começar a usar o **GIT**, primeiramente vamos criar um diretório (pasta) para que possamos inicializá-lo.
 ```bash
 mkdir curso-git
 ```
 
-Agora vamos entrar na pasta
+Agora vamos entrar na pasta.
 ```bash
 cd curso-git
 ```
 
-Por fim podemos inicializar um repositório git
+Por fim podemos, inicializar um repositório **GIT**.
 ```bash
 git init
 ```
+<br>
 
-Após o comando acima, será criado um repositório **.git** dentro da pasta em que você deu o comando __git init__  
+Após o comando acima, será criado um repositório **.git** dentro da pasta em que você deu o comando `git init`.  
 Para visualizar esse repositório e tudo o que tem na sua pasta atual execute o comando
 ```bash
 ls -la
 ```
+<br>
 
-## Dicar para o editor de texto VIM
+## **git config**
 
-Editar ou criar um arquivo caso ele não exista
+O comando __git config__ serve para definir valores de configuração do **GIT** em projetos de nível global e local.
+
+### **Níveis e locais dos arquivos git config**
+
+- --local: **.git/config**
+
+Referente ao contexto do projeto em que o git foi invocado.
+<br><br>
+
+- --global: **~ /.gitconfig em sistemas Unix** ou **C:\Users\\.gitconfig no Windows**
+
+A configuração de nível global é específica do usuário, ou seja, ela é aplicada a usuários do sistema operacional.
+<br><br>
+
+- --system: **$(prefix)/etc/gitconfig em sistemas Unix** ou **C:\ProgramData\Git\config no Windows**
+
+A configuração de nível do sistema é aplicada em toda a máquina. Ela abrange todos os usuários do sistema operacional e todos os repositórios.
+<br><br>
+
+Ao usar o **GIT** pela primeira vez, devemos aplicar algumas configurações necessárias, __e-mail__ e __usuário__, pois cada commit realizado necessita dessas informações.
+
 ```bash
-vim README.md
+git config --global user.name "Maria Marta"
 ```
-Para poder começar a inserir texto no arquivo pressione a tecla __i__  
-Para salvar as alterações pressione a tecla ESC + : + __w__  
-Para sair do VIM aperte a tecla ESC + : + __q__
+
+```bash
+git config --global user.email "maria.marta@gmail.com"
+```
+
+Definir um editor de texto para edição *opcional*.
+```bash
+git config --global core.editor code
+```
+
+Visualizar uma configuração específica.
+```bash
+git config --global user.name
+```
+
+Visualizar todas as configurações de uma só vez.
+```bash
+git config --list
+```
+<br>
+
+## **Ciclos de Vida do GIT**
+
+### **UNTRACKED**
+Arquivo adicionado ao repositório, mas nunca foi adicionado ao **GIT**  
+Arquivo removido do **GIT**.
+
+### **UNMODIFIED**
+O arquivo já está no GIT, mas não sofreu nenhuma alteração.
+
+### **MODIFIED**
+O arquivo já está, foi alterado no repositório e após essa alteração não foi realizado um **commit**, então no **GIT** está diferente do repositório (está desatualiado no **GIT**).
+
+### **STAGED**
+Quando modificado um arquivo e executamos o comando `add nome_arquivo`, o arquivo fica pronto para o `git commit -m "mensagem"`, depois disso o arquivo volta para ***UNMODIFIED**.
+<br><br>
 
 
-## Ciclos de Vida do GIT
-
-### UNTRACKED
-Arquivo adicionado ao repositório mas nunca foi adicionado ao GIT
-Arquivo removido do GIT
-
-### UNMODIFIED
-Está no GIT, mas não sofreu nenhuma alteração
-
-### MODIFIED
-Está no GIT, foi alterado no repositório e após essa alteração não foi realizado um __commit__ então no GIT está diferente do repositório (está desatualiado no GIT)
-
-### STAGED
-Quando a gente modifica um arquivo e executa o comando __add nome_arquivo__ ele vem para esse estágio pronto para receber o comando __commit__ e depois disso volta para ***UNMODIFIED**
-
-Ver os ciclos (estados) dos aruivos no meu repositório
-
+Ver o ciclo de vida atual no meu repositório.
 ```bash
 git status
 ```
+<br><br>
 
-Passe meu aquivo para o **STAGED** para ficar pronto para receber o __commit__
+Passe meu arquivo para o **STAGED** para ficar pronto para receber o `git commit -m "mensagem"`.
 ```bash
 git add.README.md
 ```
+<br><br>
 
-Pegque meus arquivos do **STAGED** e crie uma imagem dele (snapshot)
+Pegue meus arquivos do **STAGED** e crie uma imagem dele (snapshot).
 ```bash
 git commit -m "Adcionado o arquivo README.md"
 ```
+<br><br>
 
 O comando abaixo exibirá 4 linhas (para cada commit existente):
 1. O hash do commit
@@ -103,60 +113,71 @@ O comando abaixo exibirá 4 linhas (para cada commit existente):
 ```bash
 git log
 ```
+<br><br>
 
 As 4 informações acima + de qual branch para qual branch
 ```bash
 git log --decorate
 ```
+<br><br>
 
-Para filtar o commit de um usuário específico
+Para filtrar o commit de um usuário específico
 ```bash
 git log --author="Maria"
 ```
+<br><br>
 
-Mostra por ordem alfabética os autores (usuários) e quantos commits realizou
+Mostra por ordem alfabética os autores (usuários) e quantos commits realizou.
 ```bash
 git shortlog
 ```
+<br><br>
 
-Só a quantidade de commits e nome do usuário
+Só a quantidade de commits e o nome do usuário.
 ```bash
 git shortlog -sn
 ```
+<br><br>
 
-Mostra de forma gráfica o que está acontecendo com as minhas Branchs e versões
+Exibir gráfico dos commits
 ```bash
 git shortlog --graph
 ```
+<br><br>
 
-Todas as informações d eum commit específico, pegar a hash no __git log__
+Todas as informações de um commit específico, pegar o hash no `git log`.
 ```bash
 git show <hash do commit>
 ```
+<br><br>
 
-Muito, realmente muito importante!
-Esse comando te mostra as alterações feitas antes de você realizar o __commit__
+Importante!
+Esse comando te mostra as alterações feitas antes de você realizar um `git commit -m "mensagem"`.
 ```bash
 git diff
 ```
+<br><br>
 
-Só exibe o nome do último arquivo modificado
+Exibe o nome do último arquivo modificado.
 ```bash
 git diff name-only
 ```
+<br><br>
 
-Se for um arquivo que já existia no git, podemos usar a flag __-am__ assim não precisa do __git add__ antes 
+Se for um arquivo que já existia no **GIT**, podemos usar a flag **-am** assim não precisa do `git add .` antes. 
 ```bash
 git commit -am "Alterado README.md"
 ```
+<br><br>
 
-Esse comando desfaz a última alteração
-Obs.: Só funciona antes do comando __git add__
+Desfaz a última alteração em um arquivo.
+Obs: Só funciona antes do comando `git add .`.
 ```bash
 git checkout README.md
 ```
+<br><br>
 
-Caso queira desfazer a última modficação mas já passou o arquivo para o **STAGED** com o comando __git add__
+Caso queira desfazer a última modficação, mas já passou o arquivo para o **STAGED** com o comando `git add .`
 
 Romeve arquivo do **STAGED**
 ```bash
@@ -167,64 +188,72 @@ E agora podemos desfazer a alteração
 git checkout README.md
 ```
 
-## GIT RESET
-**ATENNÇÃO**
-A hash que vamos usar é SEMPRE a hash do commit abaixo do que queremos RESETAR.  
+## **GIT RESET**
+
+O *hash* que vamos usar é SEMPRE o hash do commit abaixo do que queremos *resetar*.  
 Isso precisa ficar claro.
-Você vai estar dizendo apartr de qual commit PARA CIMA você quer resetar  
+Você vai estar dizendo apartir de qual commit PARA CIMA você quer *resetar*  
+<br><br>
 
-
-
-Vai matar o meu commit, voltando o meu arquivo para o **STAGED** isso quer dizer que ele ainda vai estar alterado no repositório e pronto para um novo __git commit__
+Vai matar o meu commit, voltando o meu arquivo para o **STAGED** isso quer dizer que ele ainda vai estar alterado no repositório e pronto para um novo `git commit`
 ```bash
 git reset --soft <hash do commit>
 ```
+<br><br>
 
-Vai matar o meu commit, voltando o meu arquivo para o **MODIFIED** isso quer dizer que ele ainda vai estar alterado no repositório e pronto para um __git add__ e depois __git commit__
+Vai matar o meu commit, voltando o meu arquivo para o **MODIFIED** isso quer dizer que ele ainda vai estar alterado no repositório e pronto para um `git commit add` e depois `git commit`
 ```bash
 git reset --mixed <hash do commit>
 ```
+<br><br>
 
 Vai matar o meu commit e tudo o que foi feito nele
 ```bash
 git reset --hard <hash do commit>
 ```
+<br><br>
 
+## **BRANCH**
 
-## BRANCH
 É um ponteiro móvel que leva a um **commit**  
 
 Quando incializamos um repositório o primeiro **Branch** que vamos ter é chamado de **master** (mais novos **main**)
-Sempre que realizamos um __git commit__ é criado uma **hash** e um **snapshot** (imagem) de tudo que foi feito naquele momento
+Sempre que realizamos um `git commit` é criado uma **hash** e um **snapshot** (imagem) de tudo que foi feito naquele momento
 O que o **Branch** faz é apontar para um **commit**  
 
-## Vantagens ao usar Branchs
+### **Vantagens ao usar Branchs**
 Podemos modificar sem alterar o principal **master** (main)
 Facilmente desligável
 Múltiplas pessoas trabalhando
 Evita conflitos
+<br><br>
 
-Criando uma nova Branch
+Criando uma nova Branch  
 Vai ser criado a Branch e o git já vai entrar na nova Branch
 ```bash
 git checkout -b <nome_branch>
 ```
+<br><br>
+
 Mostra as Branchs que existem e a que estiver marcada com um asterísco é que que você está
 ```bash
 git branch
 ```
+<br><br>
 
 Mudar de Branch
 ```bash
 git checkou <nome_branch>
 ```
+<br><br>
 
 Deletar Branch
 ```bash
 git branch -D <nome_branch>
 ```
+<br><br>
 
-## Merge
+## **Merge**
 Vamos supor que temos na Branch main 3 commits
 
 **branch main**
@@ -398,7 +427,12 @@ Claro que o dono do repositório original pode aceitar ou não.
 
 
 
+## Dicar para o editor de texto VIM
 
+Editar ou criar um arquivo caso ele não exista
 ```bash
-git 
+vim README.md
 ```
+Para poder começar a inserir texto no arquivo pressione a tecla __i__  
+Para salvar as alterações pressione a tecla ESC + : + __w__  
+Para sair do VIM aperte a tecla ESC + : + __q__
