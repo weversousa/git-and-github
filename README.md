@@ -1,130 +1,326 @@
-# Como usar o GIT e o GITHUB
+## Configuração
 
-### Instalação do GIT no Linux Ubuntu
-    sudo apt-get install git
+Como configurar uma propriedade do git:
+```powershell
+git config --global user.name "Weverton Teixeira de Sousa"
+git config --global user.email "weverton.tsousa@hotmail.com"
+git config --global core.editor code
+```
+Verificar como está definido uma configuração de forma individual:
+```powershell
+git config user.name
+```
 
-### Confirmar se o GIT foi instalado
-    git --version
-
-### Configurar um nome de usuário para user no GIT
-    git config --global user.name "Seu Nome"
-
-### Configurar um e-mail para usar no GIT
-    git config --global user.name "email@hotmail.com"
-
-- `config` para configuração.  
-- `--global` em qualquer lugar da sua máquina que usado o comando git será usado a credencial configurada.
-- `user.name` e `user.email` todos os comandos `git` executados no Terminal são registrados com um nome e e-mail de usuário, por isso é obrigatório realizar essas configurações.
-
-### Criar um diretório local para servir de repositório
-    mkdir <nome do diretório>
-
-### Entrar no diretório que acabamos de criar
-    cd <nome do diretório>
-
-### Inicializar um repositório GIT em nosso diretório
-    git init
-
-- Vai ser criado o arquivo oculto **.git** em nosso diretório (repositório).
-
-### Criar um arquivo para versionar (salvar) no GIT
-    nano <nome do arquivo>
-
-- `nano` é um editor de texto Linux, se o arquivo não existir ele vai criá-lo.
-
-### Saindo do editor de texto NANO
-1. CTRL + O
-2. ENTER
-3. CTRL + X
-
-### Ver os estados dos arquivos no repositório
-    git status
-
-### Estado dos arquivos no diretório (repositório)
-
-**Untracked files:**
-- Arquivos novos que não estão e nunca foram versionados pelo **GIT**.
-
-**Changes not staged for commit:**
-- Arquivos já versionados e alterado **GIT**.
-
-**Changes to be commited:**
-- Arquivos alterados após o comando `add` prontos para o `commit`.
+Verificar como está definido todas as configurações através de uma lista:
+```powershell
+git config --list
+```
 
 
-### Adicionar um arquivo ao estágio Change para poder realizar um commit
-    git add <nome do arquivo>
+## Inicializar um Repositório
 
-### Adicionar todos os arquivos ao estágio Change para poder realizar um commit
-    git add .
-    git add *
+Para tornar a pasta atual em um repositório:
+```powershell
+git init
+```
 
-### Realizr um COMMIT
-    git commit -m "Título do commit"
-
-### Listar de todos os commits já realizado no repositório
-    git log
-
-### Ver as alterações realizada em um arquivo
-    git diff <nome do arquivo>
-
-- Linhas com o sinal `-` siginifica que foram alteradas (não existem mais).
-- Linhas com o sinal `+` siginifica que foram adicionadas (no lugar da alterada).
-
-## Configuração do GITHUB
-
-Para enviar\receber arquivos do repositório local (git - sua máquina) para o repositório remoto (github - web) são  necessário algumas configurações.
-
-### Criar arquivos com a nossa chave SSH
-    ssh-keygen
-
-1. Inserir um nome para a sua chave SSH (opcional)
-2. Inserir senha (opcional), se inserida vai ser solicitada em todo commit
-3. Repetir senha (se não colocar senha pode dar ENTER na linha 2 e agora na linha 3).
-
-### Vão ser criados dois arquivos:
-
-1. **nome da chave** se na hora da configurção acima você não passou um nome será **id_rsa**.
-    - Essa chave NÃO pode inserir no GITHUB ela é PRIVADA do repositório GIT (local - da sua máquina).
-2. **nome da chave.pub** se na hora da configurção acima você não passou um nome será **id_rsa.pub**.
-    - Essa é a chave para ser inserida no GITHUB ela é a PÚBLICA.
-
-### Configurar variável de ambiente com a chave SSH
-    eval `ssh-agent`
-    ssh-add <nome da chave PRIVADA>
-
-- A chave PRIVADA não possui a extensão **.pub**
-
-### Entrar no aquivo para copiar a chave SSH para inserir no GITHUB
-    cat <nome da chave>.pub
-
-1. Settings
-2. SSH and GPG Keys
-3. New SSH Key
-4. Title
-    - Colocar um titulo para identificar sua chave
-5. Key
-    - Colar sua chave
+Vai ser criado um arquivo "oculto" `.git` na pasta, para conferir no Poweshell use o seguinte comando:
+```powershell
+ls -Force
+```
+**saída**
+```powershell
+    Diretório: C:\dev\curso-git-e-github
 
 
-## Criar um novo repositório no GITHUB
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d--h--        19/11/2021     11:42                .git
+```
 
-1. New repository
-2. Repository name
-3. Public
-4. Create repository
+## Ciclo de Vida - Status do Arquivo
 
-## Ligar GIT (local) com GITHUB (remoto)
-    git remote add origin git@github.com:<nome usuário web github>/<nome repositório web>.git
+* __untracked__: arquivo novo na pasta, que nunca foi adicionado ao git
+* __unmodified__: arquivo sem modificação
+* __modified__: arquivo com modificação
+* __staged__: arquivo pronto para commit
 
-`remote` é o repositório do link, remote (web)
-`origin` é o nosso repositório local (que está em nosso PC).
+## Comandos Principais
 
-### Enviar arquivos comitados do GIT para GITHUB
-    git push origin main
+Para verificar o "Ciclo de Vida" dos arquivos no repositório:
+```powershell
+git status
+```
+**saída**
+```powershell
+On branch main
 
-### Enviar arquivos comitados do GITHUB para GIT
-    git pull origin main
+No commits yet
 
-### Clonar repositório do GITHUB para o GIT (local)
-    git clone git@github.com:<nome usuário web github>/<nome repositório web>.git
+nothing to commit (create/copy files and use "git add" to track)
+```
+* On branch main: você está na branch main
+* No commits yet: não foi realizado nehum commit ainda
+* nothing to commit: não tem nada para commitar (uma explicação do que fazer)
+
+Criar um arquivo `Readme.md` e escrever dentro dele "Curso de GIT" e depois salve.  
+
+Vamos verificar o Ciclo de Vida:
+```powershell
+git status
+```
+**saída**
+```powershell
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        Readme.md
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+O Ciclo de Vida mudou para Untracked, então vamos passar Staged:
+```powershell
+git add Readme.md
+```
+
+Vamos verificar o Ciclo de Vida:
+```powershell
+git status
+```
+**saída**
+```
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   Readme.md
+```
+
+O Ciclo de Vida passou para o Staged e agora está pronto para receber um `commit` (ser criado uma versão).
+Mas antes de commitar, edite o arquivo `Readme.md` escreva uma nova linha dentro dele e depois salve.  
+
+Vamos verificar o Ciclo de Vida:
+```powershell
+git status
+```
+**saída**
+```powershell
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   Readme.md
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   Readme.md
+```
+
+O Ciclo de Vida saiu do Staged e passou para Modified, então precisamos passar novamente para o Staged:
+```powershell
+git add Readme.md
+```
+
+Vamos verificar o Ciclo de Vida:
+```powershell
+git status
+```
+**saída**
+```powershell
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   Readme.md 
+```
+
+O Ciclo de Vida passou para o Staged e agora está pronto para receber um `commit` (ser criado uma versão):
+```powershell
+git commit -m "Adicionado Readme.md"
+```
+**saída**
+```powershell
+[main (root-commit) ecb3b61] Adicionado Readme.md
+ 1 file changed, 3 insertions(+)
+ create mode 100644 Readme.md
+```
+* main: branch em que está
+* ecb3b61: hash do commit, único (nunca terá igual)
+* Adicionado Readme.md: mensagem passada no commit
+* 1 file changed: quantidade de arquivos modificados
+* 3 insertions(+):  o sinal de `+` significa que foi acrescentado valor | `-` significa que foi removido valor
+
+Vamos verificar o Ciclo de Vida:
+```powershell
+git status
+```
+**saída**
+```powershell
+On branch main
+nothing to commit, working tree clean
+```
+
+Edite o arquivo `Readme.md` mais uma vez, escreva uma nova linha dentro dele e depois salve.  
+
+Vamos verificar o Ciclo de Vida:
+```powershell
+git status
+```
+**saída**
+```powershell
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   Readme.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+Como foi realizado uma mudança no arquivo, o Ciclo de Vida dele passou para Modified, e novamente precisamos addcioná-lo ao Staged:
+```powershell
+git add Readme.md
+```
+
+Vamos verificar o Ciclo de Vida:
+```powershell
+git status
+```
+**saída**
+```
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   Readme.md
+```
+
+O Ciclo de Vida passou para o Staged e agora está pronto para receber um novo `commit` (ser criado uma nova versão):
+```powershell
+git commit -m "Inserido nova linha em Readme.md"
+```
+**saída**
+```
+[main e8aca31] Inserido nova linha em Readme.md
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+```
+
+Vamos verificar o Ciclo de Vida:
+```powershell
+git status
+```
+**saída**
+```powershell
+On branch main
+nothing to commit, working tree clean
+```
+
+Verificar todos os commits realizado no repositório:
+```powershell
+git log
+```
+**saída**
+```powershell
+commit e8aca311634c6679934e48cc9a4ce3541a0d0b55 (HEAD -> main)
+Author: Weverton Teixeira de Sousa <weverton.tsousa@hotmail.com>
+Date:   Fri Nov 19 11:40:58 2021 -0300
+
+    Inserido nova linha em Readme.md
+
+commit ecb3b617b50b804d439ac8c5aad4d2f9daffb942
+Author: Weverton Teixeira de Sousa <weverton.tsousa@hotmail.com>
+Date:   Fri Nov 19 11:33:40 2021 -0300
+
+    Adicionado Readme.md
+```
+
+Verificar os commits de um usuário específico pelo nome (não precisa ser o nome completo):
+```powershell
+git log --author "Weverton"
+```
+**saída**
+```powershell
+commit e8aca311634c6679934e48cc9a4ce3541a0d0b55 (HEAD -> main)  
+Author: Weverton Teixeira de Sousa <weverton.tsousa@hotmail.com>
+Date:   Fri Nov 19 11:40:58 2021 -0300
+
+    Inserido nova linha em Readme.md
+
+commit ecb3b617b50b804d439ac8c5aad4d2f9daffb942
+Author: Weverton Teixeira de Sousa <weverton.tsousa@hotmail.com>
+Date:   Fri Nov 19 11:33:40 2021 -0300
+
+    Adicionado Readme.md
+```
+
+Verificar todos os commits do repositório, classificado por ordem alfabética pelo usuário, com a quantidade de commites e a mensagem dos commits:
+```powershell
+git shortlog
+```
+**saída**
+```powershell
+Weverton Teixeira de Sousa (2):
+      Adicionado Readme.md
+      Inserido nova linha em Readme.md
+```
+
+Verificar todos os commits do repositório, classificado por ordem decrescente de commits, SOMENTE com a quantidade de commits e usuário:
+```powershell
+git shortlog -sn
+```
+**saída**
+```powershell
+2  Weverton Teixeira de Sousa
+```
+
+Exibir um gráfico dos commits:
+```powershell
+git log --graph
+```
+**saída**
+```powershell
+* commit e8aca311634c6679934e48cc9a4ce3541a0d0b55 (HEAD -> main)  
+| Author: Weverton Teixeira de Sousa <weverton.tsousa@hotmail.com>
+| Date:   Fri Nov 19 11:40:58 2021 -0300
+|
+|     Inserido nova linha em Readme.md
+|
+* commit ecb3b617b50b804d439ac8c5aad4d2f9daffb942
+  Author: Weverton Teixeira de Sousa <weverton.tsousa@hotmail.com>
+  Date:   Fri Nov 19 11:33:40 2021 -0300
+
+      Adicionado Readme.md
+```
+
+Para saber os detalhes do que ocorreu em um commit, pegar o hash do commit no `git log` e usá-lo:
+```powershell
+git show ecb3b617b50b804d439ac8c5aad4d2f9daffb942
+```
+**saída**
+```powershell
+commit ecb3b617b50b804d439ac8c5aad4d2f9daffb942
+Author: Weverton Teixeira de Sousa <weverton.tsousa@hotmail.com>
+Date:   Fri Nov 19 11:33:40 2021 -0300
+
+    Adicionado Readme.md
+
+diff --git a/Readme.md b/Readme.md
+new file mode 100644
+index 0000000..33da273
+--- /dev/null
++++ b/Readme.md
+@@ -0,0 +1,3 @@
++Curso de GIT
++
++Este é um repositório teste para aprender como o GIT funciona.
+\ No newline at end of file
+```
